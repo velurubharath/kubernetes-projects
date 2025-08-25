@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: web
+    namespace: demo
+    annotation:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+    rules:
+    - host: web.local.com
+      http:
+        paths:
+        - path: /
+          pathType: prefix
+          backend:
+            service:
+                name: web
+                port:
+                    number: 80

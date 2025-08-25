@@ -1,0 +1,93 @@
+#Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: demo
+---
+##Create a config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: web-config
+    namespace: demo
+data:
+    MESSAGE: "Hello Bharath!"
+---    
+#Create a Secret
+apiVersion: v1
+kind: Secret
+metadata:
+    name: web-secret
+    namespace: demo
+type: Opaque
+stringData:
+    API_KEY: "api123"
+---    
+#Create Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: web
+    namespace: demo
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: web
+    template:
+        metadata:
+            labels:
+                app: web
+        spec:
+            containers:
+            - name: web
+              image: nginx:alpine
+              ports:
+              - containerPort: 80
+              env:
+              - name: MESSAGE
+                valueFrom:
+                    configMapKeyRef:
+                        name: web-config
+                        key: MESSAGE
+              - name: API_KEY
+                valueFrom:
+                    secretKeyRef:
+                        name: web-secret
+                        key: API_KEY
+              readinessProbe:
+                httpGet:
+                    path: /
+                    port: 80
+                initialDelaySeconds: 3
+                periodSeconds: 5
+                
+              livenessProbe:
+                httpGet:
+                    path: /
+                    port: 80
+                initialDelaySeconds: 10
+                periodSeconds: 10
+              resources:
+                requests:
+                    cpu: "50m"
+                    memory: "64Mi"
+                limits:
+                    cpu: "200m"
+                    memory: "128Mi"                    
+---                    
+#Create Service
+apiVersion: v1
+kind: Service
+metadata:
+    name: web
+    namespace: demo
+spec:
+    selector:
+        app: web
+    ports:
+     - port: 80
+       targetPort: 80
+       protocol: TCP
+    type: ClusterIP
+                    
