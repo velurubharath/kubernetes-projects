@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-affinitiy
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSechedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpression:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
