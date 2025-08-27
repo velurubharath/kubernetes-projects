@@ -1,0 +1,9 @@
+replicaCount: 1
+service:
+  port: 80
+ingress:
+  host: dev.myapp.local
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi

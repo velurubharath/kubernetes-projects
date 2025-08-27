@@ -1,0 +1,9 @@
+replicacount: 3
+service:
+  port: 80
+ingress:
+  host: prod.myapp.company.com
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi

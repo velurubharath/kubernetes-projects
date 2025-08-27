@@ -1,0 +1,47 @@
+name: Deploy Helm App
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.0'
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: '3.13.0'
+
+      - name: Configure Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_DEV }}" > $HOME/.kube/config
+
+      - name: Deploy to Dev (on dev branch)
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          helm upgrade --install myapp ./charts/myapp \
+            -f charts/myapp/values-dev.yaml \
+            --namespace dev --create-namespace
+
+      - name: Deploy to Prod (on main branch)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Replace kubeconfig with prod cluster creds
+          echo "${{ secrets.KUBECONFIG_PROD }}" > $HOME/.kube/config
+
+          helm upgrade --install myapp ./charts/myapp \
+            -f charts/myapp/values-prod.yaml \
+            --namespace prod --create-namespace
