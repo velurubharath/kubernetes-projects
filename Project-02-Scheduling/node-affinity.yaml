@@ -5,9 +5,9 @@ metadata:
 spec:
   affinity:
     nodeAffinity:
-      requiredDuringSechedulingIgnoredDuringExecution:
+      requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpression:
+        - matchExpressions:
           - key: disktype
             operator: In
             values:
