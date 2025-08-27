@@ -4,8 +4,8 @@ metadata:
   name: high-priority
 value: 1000
 globalDefault: false
-description: "High Priority Pods"
-
+description: "High priority pods"
+---
 apiVersion: v1
 kind: Pod
 metadata:
