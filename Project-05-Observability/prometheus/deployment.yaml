@@ -14,16 +14,16 @@ spec:
       labels:
         app: prometheus
     spec:
-      contianers:
-      - name: prometheus
-        image: prom/prometheus:v2.52.0
-        args:
-          - "--config.file=/etc/prometehus/prometheus.yml"
-        ports:
-          - containerPort: 9090
-        volumeMounts:
-          - name: config-volume
-            mount: /etc/prometheus
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.52.0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
       volumes:
         - name: config-volume
           configMap:
