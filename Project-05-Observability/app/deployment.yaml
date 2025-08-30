@@ -18,4 +18,4 @@ spec:
       - name: demo-app
         image: prom/statsd-exporter:v0.26.1 
         ports:
-        - containerPort: 9102
+        - containerPort: 9100

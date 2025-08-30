@@ -16,4 +16,4 @@ data:
 
       - job_name: 'demo-app'
         static_configs:
-          - targets: ['demo-app:9102']
+          - targets: ['demo-app:9100']
