@@ -1,0 +1,42 @@
+# ======================== Kibana Configuration ========================
+
+# Kibana server host
+server.host: "0.0.0.0"
+
+# Port Kibana will listen on
+server.port: 5601
+
+# ====================== Elasticsearch Connection ======================
+
+# URL(s) of the Elasticsearch nodes Kibana will connect to
+# If using Kubernetes service:
+#elasticsearch.hosts: ["http://elastic-search:9200"]
+
+# If testing locally with port-forward, use:
+elasticsearch.hosts: ["http://localhost:9200"]
+
+# ====================== Security / Encryption ========================
+
+# Encryption key for Encrypted Saved Objects (required for Alerting & Reporting)
+# Must be at least 32 characters
+xpack.encryptedSavedObjects.encryptionKey: "aqhbAiJxdKIVmbAC2nYpEVR6UilAmwE8ovGrRBH4laU="
+xpack.security.encryptionKey: "aqhbAiJxdKIVmbAC2nYpEVR6UilAmwE8ovGrRBH4laU="
+xpack.reporting.encryptionKey: "aqhbAiJxdKIVmbAC2nYpEVR6UilAmwE8ovGrRBH4laU="
+
+# ========================== Logging ===================================
+
+logging.dest: stdout
+logging.verbose: true
+
+# ========================== Optional Plugins ==========================
+
+# Enable or disable plugins
+# xpack.security.enabled: true
+# xpack.monitoring.enabled: true
+# xpack.alerting.enabled: true
+
+# ======================== Other Settings ==============================
+
+# Time zone, default Kibana index, etc.
+# i18n.locale: "en"
+# kibana.index: ".kibana"
