@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fsx-sc
+provisioner: fsx.csi.aws.com
+parameters:
+  fileSystemId: fs-abcdef0123456789   # Replace with your FSx FS ID
+  dnsName: fs-abcdef0123456789.fsx.us-east-1.amazonaws.com
+  mountName: fsx
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-ebs
+spec:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-ebs
+  template:
+    metadata:
+      labels:
+        app: mysql-ebs
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "rootpass"
+        volumeMounts:
+        - name: mysql-ebs-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-ebs-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: ebs-gp2
+      resources:
+        requests:
+          storage: 1Gi
